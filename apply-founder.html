@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Apply as Founder | Founders Bridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,9 +15,8 @@
 </head>
 
 <body>
-  <div class="container">
 
-    <!-- CARD WRAPPER (THIS WAS MISSING) -->
+  <div class="container">
     <div class="form-card">
 
       <h1>Apply as a Founder</h1>
@@ -25,7 +25,6 @@
       </p>
 
       <form id="founderForm">
-
 
         <label>Full Name</label>
         <input type="text" required>
@@ -37,7 +36,7 @@
         <input type="text">
 
         <label>Industry</label>
-        <select>
+        <select required>
           <option>D2C</option>
           <option>B2B</option>
           <option>SaaS</option>
@@ -46,13 +45,13 @@
         </select>
 
         <label>Startup Stage</label>
-        <select>
+        <select required>
           <option>Idea</option>
           <option>MVP</option>
           <option>Revenue</option>
         </select>
 
-        <!-- CHECKBOX SECTION -->
+        <!-- SERVICES -->
         <div class="form-section">
           <h3>What are you looking for?</h3>
           <p class="helper">
@@ -78,10 +77,9 @@
         </div>
 
         <label>Short Description</label>
-        <textarea rows="3"></textarea>
+        <textarea rows="3" placeholder="Briefly describe your startup"></textarea>
 
         <button type="submit">Apply to Founders Bridge</button>
-
       </form>
 
       <p class="trust">
@@ -90,36 +88,53 @@
 
     </div>
   </div>
+
+  <!-- FORM SCRIPT -->
   <script>
-  const form = document.getElementById("founderForm");
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("founderForm");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    const services = [];
-    document.querySelectorAll(".checkbox-item input:checked").forEach(cb => {
-      services.push(cb.nextElementSibling.innerText);
+        const textInputs = form.querySelectorAll('input[type="text"]');
+
+        const services = Array.from(
+          document.querySelectorAll(".checkbox-item input:checked")
+        ).map(cb => cb.nextElementSibling.innerText);
+
+        const data = {
+          fullName: textInputs[0].value,
+          email: form.querySelector('input[type="email"]').value,
+          startupName: textInputs[1].value,
+          industry: form.querySelectorAll("select")[0].value,
+          stage: form.querySelectorAll("select")[1].value,
+          services: services.join(", "),
+          description: form.querySelector("textarea").value
+        };
+
+        try {
+          await fetch(
+            "https://script.google.com/macros/s/AKfycbxM9nWHTH9t20K_lL_529c2WO1CMBeBN0qx1E3XXX-J4n5qGCHRFoufRlF5NKOOznvB/exec",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)
+            }
+          );
+
+          alert("✅ Application submitted successfully!");
+          form.reset();
+
+        } catch (error) {
+          console.error(error);
+          alert("❌ Submission failed. Please try again.");
+        }
+      });
     });
-
-    const data = {
-      fullName: form.querySelector('input[type="text"]').value,
-      email: form.querySelector('input[type="email"]').value,
-      startupName: form.querySelectorAll('input[type="text"]')[1].value,
-      industry: form.querySelectorAll("select")[0].value,
-      stage: form.querySelectorAll("select")[1].value,
-      services: services,
-      description: form.querySelector("textarea").value
-    };
-
-    await fetch("https://script.google.com/macros/s/AKfycbxM9nWHTH9t20K_lL_529c2WO1CMBeBN0qx1E3XXX-J4n5qGCHRFoufRlF5NKOOznvB/exec", {
-      method: "POST",
-      body: JSON.stringify(data)
-    });
-
-    alert("✅ Application submitted successfully!");
-    form.reset();
-  });
-</script>
+  </script>
 
 </body>
 </html>
