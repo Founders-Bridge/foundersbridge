@@ -91,50 +91,46 @@
 
   <!-- FORM SCRIPT -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("founderForm");
+const form = document.getElementById("founderForm");
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-        const textInputs = form.querySelectorAll('input[type="text"]');
+  const services = [];
+  document.querySelectorAll(".checkbox-item input:checked").forEach(cb => {
+    services.push(cb.nextElementSibling.innerText);
+  });
 
-        const services = Array.from(
-          document.querySelectorAll(".checkbox-item input:checked")
-        ).map(cb => cb.nextElementSibling.innerText);
+  const data = {
+    fullName: form.querySelectorAll('input[type="text"]')[0].value,
+    email: form.querySelector('input[type="email"]').value,
+    startupName: form.querySelectorAll('input[type="text"]')[1].value,
+    industry: form.querySelectorAll("select")[0].value,
+    stage: form.querySelectorAll("select")[1].value,
+    services: services,
+    description: form.querySelector("textarea").value
+  };
 
-        const data = {
-          fullName: textInputs[0].value,
-          email: form.querySelector('input[type="email"]').value,
-          startupName: textInputs[1].value,
-          industry: form.querySelectorAll("select")[0].value,
-          stage: form.querySelectorAll("select")[1].value,
-          services: services.join(", "),
-          description: form.querySelector("textarea").value
-        };
-
-        try {
-          await fetch(
-            "https://script.google.com/macros/s/AKfycbxM9nWHTH9t20K_lL_529c2WO1CMBeBN0qx1E3XXX-J4n5qGCHRFoufRlF5NKOOznvB/exec",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(data)
-            }
-          );
-
-          alert("✅ Application submitted successfully!");
-          form.reset();
-
-        } catch (error) {
-          console.error(error);
-          alert("❌ Submission failed. Please try again.");
-        }
-      });
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbzGf-E7O_wv1Xj933Y7w4yrC724oq5IOOPe42RmKcneWciBr4-filXOrG1R7vK_LULs/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
     });
-  </script>
+
+    alert("✅ Application submitted successfully!");
+    form.reset();
+
+  } catch (error) {
+    alert("❌ Submission failed. Please try again.");
+  }
+});
+</script>
+
+
 
 </body>
 </html>

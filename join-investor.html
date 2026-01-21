@@ -21,7 +21,8 @@
       Discover curated startups and connect with founders aligned to your investment focus.
     </p>
 
-    <form>
+    <form id="investorForm">
+
 
       <label>Full Name</label>
       <input type="text" required>
@@ -95,5 +96,44 @@
     </p>
 
   </div>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("investorForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const checkboxes = [];
+    document.querySelectorAll(".checkbox-item input:checked")
+      .forEach(cb => checkboxes.push(cb.nextElementSibling.innerText));
+
+    const data = {
+      formType: "investor",
+      fullName: form.querySelectorAll('input[type="text"]')[0].value,
+      email: form.querySelector('input[type="email"]').value,
+      organization: form.querySelectorAll('input[type="text"]')[1].value,
+      role: form.querySelectorAll("select")[0].value,
+      focus: form.querySelectorAll("select")[1].value,
+      stage: form.querySelectorAll("select")[2].value,
+      engagement: checkboxes.join(", "),
+      bio: form.querySelector("textarea").value
+    };
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbx65olBVmhPDXw2bOg5GcS-OsVaFMcveEyo0-X2fWjlzYiQIPNgVX81Zy8YJXfBJXU/exechttps://script.google.com/macros/s/AKfycbx65olBVmhPDXw2bOg5GcS-OsVaFMcveEyo0-X2fWjlzYiQIPNgVX81Zy8YJXfBJXU/exec", {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({ test: "hello from investor form" })
+});
+
+      alert("✅ Thank you for joining Founders Bridge!");
+      form.reset();
+
+    } catch (err) {
+      alert("❌ Submission failed. Please try again.");
+    }
+  });
+});
+</script>
 </body>
 </html>
