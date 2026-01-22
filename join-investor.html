@@ -3,137 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <title>Join as Investor | Founders Bridge</title>
-
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Shared CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-  <div class="container">
 
-    <h1>Join as an Investor</h1>
-    <p class="subtitle">
-      Discover curated startups and connect with founders aligned to your investment focus.
-    </p>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">🌉 Founders Bridge</h1>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="apply-founder.html">Founders</a>
+        <a href="join-investor.html">Investors</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <form id="investorForm">
+  <!-- CONTENT -->
+  <section class="hero">
+    <div class="container">
+      <h2>Join as Investor / Mentor</h2>
+      <p>
+        Share your background and interests.
+        We connect you with founders aligned to your expertise and focus.
+      </p>
 
+      <!-- FORM (NO JS) -->
+      <form
+        class="form"
+        action="https://script.google.com/macros/s/AKfycby_mnTuKuy2m4Y5QmeDQSkCFhasvfrxa-7Rtv_OPxIpCUAA8feN-87JVoeydQoE7tP3NA/exec"
+        method="POST"
+      >
 
-      <label>Full Name</label>
-      <input type="text" required>
+        <input
+          type="text"
+          name="fullName"
+          placeholder="Full Name"
+          required
+        >
 
-      <label>Email Address</label>
-      <input type="email" required>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          required
+        >
 
-      <label>Organization / Fund Name</label>
-      <input type="text">
+        <select name="role" required>
+          <option value="">Your Role</option>
+          <option value="Investor">Investor</option>
+          <option value="Mentor">Mentor</option>
+          <option value="Both">Both</option>
+        </select>
 
-      <label>Role</label>
-      <select>
-        <option>Angel Investor</option>
-        <option>VC / Fund Partner</option>
-        <option>Mentor</option>
-        <option>Advisor</option>
-      </select>
+        <input
+          type="text"
+          name="expertise"
+          placeholder="Areas of Expertise (e.g. SaaS, D2C, Fintech)"
+          required
+        >
 
-      <label>Primary Investment Focus</label>
-      <select>
-        <option>SaaS</option>
-        <option>B2B</option>
-        <option>D2C</option>
-        <option>Fintech</option>
-        <option>AI / DeepTech</option>
-        <option>Other</option>
-      </select>
+        <select name="interestedTo" required>
+          <option value="">Interested To</option>
+          <option value="Invest">Invest</option>
+          <option value="Mentor">Mentor</option>
+          <option value="Both">Both</option>
+        </select>
 
-      <label>Preferred Startup Stage</label>
-      <select>
-        <option>Idea</option>
-        <option>MVP</option>
-        <option>Early Revenue</option>
-        <option>Growth</option>
-      </select>
+        <input
+          type="url"
+          name="linkedin"
+          placeholder="LinkedIn Profile URL"
+        >
 
-      <!-- SECTION -->
-      <div class="form-section">
-        <h3>How would you like to engage?</h3>
-        <p class="helper">
-          Select all that apply. This helps us match you with the right founders.
-        </p>
+        <button type="submit" class="btn primary">
+          Join Founders Bridge
+        </button>
 
-        <div class="checkbox-group">
-          <label class="checkbox-item">
-            <input type="checkbox">
-            <span>Invest Capital</span>
-          </label>
+      </form>
+    </div>
+  </section>
 
-          <label class="checkbox-item">
-            <input type="checkbox">
-            <span>Mentorship & Guidance</span>
-          </label>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Founders Bridge. All rights reserved.</p>
+  </footer>
 
-          <label class="checkbox-item">
-            <input type="checkbox">
-            <span>Strategic Advisory</span>
-          </label>
-        </div>
-      </div>
-
-      <label>Short Bio / Investment Thesis</label>
-      <textarea rows="4"></textarea>
-
-      <button type="submit">Join Founders Bridge</button>
-
-    </form>
-
-    <p class="trust">
-      🔒 Founder and investor details are shared only with mutual consent.
-    </p>
-
-  </div>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("investorForm");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const checkboxes = [];
-    document.querySelectorAll(".checkbox-item input:checked")
-      .forEach(cb => checkboxes.push(cb.nextElementSibling.innerText));
-
-    const data = {
-      formType: "investor",
-      fullName: form.querySelectorAll('input[type="text"]')[0].value,
-      email: form.querySelector('input[type="email"]').value,
-      organization: form.querySelectorAll('input[type="text"]')[1].value,
-      role: form.querySelectorAll("select")[0].value,
-      focus: form.querySelectorAll("select")[1].value,
-      stage: form.querySelectorAll("select")[2].value,
-      engagement: checkboxes.join(", "),
-      bio: form.querySelector("textarea").value
-    };
-
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbx65olBVmhPDXw2bOg5GcS-OsVaFMcveEyo0-X2fWjlzYiQIPNgVX81Zy8YJXfBJXU/exechttps://script.google.com/macros/s/AKfycbx65olBVmhPDXw2bOg5GcS-OsVaFMcveEyo0-X2fWjlzYiQIPNgVX81Zy8YJXfBJXU/exec", {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify({ test: "hello from investor form" })
-});
-
-      alert("✅ Thank you for joining Founders Bridge!");
-      form.reset();
-
-    } catch (err) {
-      alert("❌ Submission failed. Please try again.");
-    }
-  });
-});
-</script>
 </body>
 </html>

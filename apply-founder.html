@@ -4,133 +4,96 @@
   <meta charset="UTF-8" />
   <title>Apply as Founder | Founders Bridge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Main CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-  <div class="container">
-    <div class="form-card">
-
-      <h1>Apply as a Founder</h1>
-      <p class="subtitle">
-        Get investor-ready with a professional pitch deck and relevant introductions.
-      </p>
-
-      <form id="founderForm">
-
-        <label>Full Name</label>
-        <input type="text" required>
-
-        <label>Email Address</label>
-        <input type="email" required>
-
-        <label>Startup Name</label>
-        <input type="text">
-
-        <label>Industry</label>
-        <select required>
-          <option>D2C</option>
-          <option>B2B</option>
-          <option>SaaS</option>
-          <option>Fintech</option>
-          <option>Other</option>
-        </select>
-
-        <label>Startup Stage</label>
-        <select required>
-          <option>Idea</option>
-          <option>MVP</option>
-          <option>Revenue</option>
-        </select>
-
-        <!-- SERVICES -->
-        <div class="form-section">
-          <h3>What are you looking for?</h3>
-          <p class="helper">
-            Select all that apply. This helps us prepare the right support for you.
-          </p>
-
-          <div class="checkbox-group">
-            <label class="checkbox-item">
-              <input type="checkbox">
-              <span>Pitch Deck</span>
-            </label>
-
-            <label class="checkbox-item">
-              <input type="checkbox">
-              <span>Investor Introduction</span>
-            </label>
-
-            <label class="checkbox-item">
-              <input type="checkbox">
-              <span>Mentorship</span>
-            </label>
-          </div>
-        </div>
-
-        <label>Short Description</label>
-        <textarea rows="3" placeholder="Briefly describe your startup"></textarea>
-
-        <button type="submit">Apply to Founders Bridge</button>
-      </form>
-
-      <p class="trust">
-        🔒 We never share your contact details without your permission.
-      </p>
-
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">🌉 Founders Bridge</h1>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="apply-founder.html">Founders</a>
+        <a href="join-investor.html">Investors</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <!-- FORM SCRIPT -->
-  <script>
-const form = document.getElementById("founderForm");
+  <!-- CONTENT -->
+  <section class="hero">
+    <div class="container">
+      <h2>Apply as a Founder</h2>
+      <p>
+        Tell us about your startup. We review every application and help founders
+        become investor-ready before introductions.
+      </p>
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+      <!-- FORM (NO JS, DIRECT GOOGLE SUBMIT) -->
+      <form
+        class="form"
+        action="https://script.google.com/macros/s/AKfycbxqA2T-sqVUqS7KGC9B8Yj5QroMQTKwIEtM7SZNGQl_rIC73dRXJfN8HO4CY6hFlAvv/exec"
+        method="POST"
+      >
 
-  const services = [];
-  document.querySelectorAll(".checkbox-item input:checked").forEach(cb => {
-    services.push(cb.nextElementSibling.innerText);
-  });
+        <input
+          type="text"
+          name="fullName"
+          placeholder="Full Name"
+          required
+        >
 
-  const data = {
-    fullName: form.querySelectorAll('input[type="text"]')[0].value,
-    email: form.querySelector('input[type="email"]').value,
-    startupName: form.querySelectorAll('input[type="text"]')[1].value,
-    industry: form.querySelectorAll("select")[0].value,
-    stage: form.querySelectorAll("select")[1].value,
-    services: services,
-    description: form.querySelector("textarea").value
-  };
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          required
+        >
 
-  try {
-    await fetch("https://script.google.com/macros/s/AKfycbzGf-E7O_wv1Xj933Y7w4yrC724oq5IOOPe42RmKcneWciBr4-filXOrG1R7vK_LULs/exec", {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+        <input
+          type="text"
+          name="startupName"
+          placeholder="Startup Name"
+          required
+        >
 
-    alert("✅ Application submitted successfully!");
-    form.reset();
+        <input
+          type="text"
+          name="industry"
+          placeholder="Industry / Domain"
+          required
+        >
 
-  } catch (error) {
-    alert("❌ Submission failed. Please try again.");
-  }
-});
-</script>
+        <select name="stage" required>
+          <option value="">Startup Stage</option>
+          <option value="Idea Stage">Idea Stage</option>
+          <option value="MVP">MVP</option>
+          <option value="Early Revenue">Early Revenue</option>
+          <option value="Growth Stage">Growth Stage</option>
+        </select>
 
+        <textarea
+          name="description"
+          placeholder="Briefly describe what you're building"
+          rows="4"
+          required
+        ></textarea>
 
+        <button type="submit" class="btn primary">
+          Submit Application
+        </button>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Founders Bridge. All rights reserved.</p>
+  </footer>
 
 </body>
 </html>
