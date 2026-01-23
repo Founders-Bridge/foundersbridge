@@ -46,7 +46,6 @@
     <p>Login to your Founders Bridge account.</p>
 
     <form class="clean-form" id="loginForm">
-
       <input type="email" id="email" placeholder="Email Address" required>
       <input type="password" id="password" placeholder="Password" required>
 
@@ -73,23 +72,28 @@
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+  // ✅ COMPLETE Firebase config (IMPORTANT)
   const firebaseConfig = {
-    apiKey: "AIzaSyCERTDKt90nCqfxn7ssjhzwcEsopcgGweA",
+    apiKey: "AIzaSyCUHn1r-Hwg0XkLWQNQ8FC_3WqOBcQOeS8",
     authDomain: "founders-bridge.firebaseapp.com",
     projectId: "founders-bridge",
+    storageBucket: "founders-bridge.firebasestorage.app",
+    messagingSenderId: "579875714228",
+    appId: "1:579875714228:web:fabcedce27471f56d53e1"
   };
 
+  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const form = document.querySelector("form");
+  const form = document.getElementById("loginForm");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = form.querySelector('input[type="email"]').value;
-    const password = form.querySelector('input[type="password"]').value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
@@ -113,5 +117,6 @@
     }
   });
 </script>
+
 </body>
 </html>

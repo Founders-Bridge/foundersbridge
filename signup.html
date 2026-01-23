@@ -48,12 +48,9 @@
     <form class="clean-form" id="signupForm">
 
       <input type="text" id="name" placeholder="Full Name" required>
-
       <input type="email" id="email" placeholder="Email Address" required>
-
       <input type="password" id="password" placeholder="Password (min 6 characters)" required>
 
-      <!-- ROLE SELECT -->
       <select id="role" required>
         <option value="">Sign up as</option>
         <option value="founder">Founder</option>
@@ -85,12 +82,14 @@
   import { getFirestore, doc, setDoc } 
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+  // ✅ COMPLETE Firebase config (same as login.html)
   const firebaseConfig = {
+    apiKey: "AIzaSyCUHn1r-Hwg0XkLWQNQ8FC_3WqOBcQOeS8",
     authDomain: "founders-bridge.firebaseapp.com",
     projectId: "founders-bridge",
     storageBucket: "founders-bridge.firebasestorage.app",
     messagingSenderId: "579875714228",
-    appId: "1:579875714228:web:fafbcedce27471f56d53e1"
+    appId: "1:579875714228:web:fabcedce27471f56d53e1"
   };
 
   const app = initializeApp(firebaseConfig);
