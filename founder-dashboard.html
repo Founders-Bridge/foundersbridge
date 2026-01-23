@@ -105,13 +105,6 @@
   await setPersistence(auth, browserLocalPersistence);
 
   // 🔐 AUTH GUARD (FIXED – no redirect loop)
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("Founder logged in:", user.email);
-    } else {
-      window.location.replace("login.html");
-    }
-  });
 
   // 🚪 LOGOUT
   document.getElementById("logoutBtn").addEventListener("click", async () => {
