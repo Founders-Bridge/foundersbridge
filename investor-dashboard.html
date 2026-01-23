@@ -24,8 +24,8 @@
     </div>
 
     <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="investor-dashboard.html" class="active">Dashboard</a>
+      <a href="/foundersbridge/index.html">Home</a>
+      <a href="/foundersbridge/investor-dashboard.html" class="active">Dashboard</a>
     </nav>
 
     <div class="auth">
@@ -46,7 +46,7 @@
       <div class="dashboard-card">
         <h3>Discover Startups</h3>
         <p>Browse curated, pitch-ready startups aligned with your interests.</p>
-        <a href="founders-list.html" class="btn primary">Browse Founders</a>
+        <a href="/foundersbridge/founders-list.html" class="btn primary">Browse Founders</a>
       </div>
 
       <div class="dashboard-card">
@@ -75,7 +75,7 @@
   © 2026 Founders Bridge. All rights reserved.
 </footer>
 
-<!-- ================= FIREBASE AUTH (SAFE) ================= -->
+<!-- ================= FIREBASE AUTH (ABSOLUTE PATH FIX) ================= -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import {
@@ -85,6 +85,8 @@
     browserLocalPersistence,
     signOut
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const BASE = "/foundersbridge/";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCUHn1r-Hwg0XkLWQNQ8FC_3WqOBcQOeS8",
@@ -98,27 +100,23 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // ✅ Persist login across refresh
   await setPersistence(auth, browserLocalPersistence);
 
-  // ✅ SAFE AUTH GUARD (no redirect loop)
-  let authChecked = false;
-
+  let checked = false;
   onAuthStateChanged(auth, (user) => {
-    if (authChecked) return;
-    authChecked = true;
+    if (checked) return;
+    checked = true;
 
     if (!user) {
-      window.location.replace("login.html");
+      window.location.replace(BASE + "login.html");
     } else {
       console.log("Investor logged in:", user.email);
     }
   });
 
-  // 🚪 LOGOUT
   document.getElementById("logoutBtn").addEventListener("click", async () => {
     await signOut(auth);
-    window.location.replace("login.html");
+    window.location.replace(BASE + "login.html");
   });
 </script>
 
