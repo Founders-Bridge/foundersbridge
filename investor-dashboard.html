@@ -75,10 +75,10 @@
   © 2026 Founders Bridge. All rights reserved.
 </footer>
 
-<!-- ================= FIREBASE AUTH GUARD ================= -->
+<!-- ================= FIREBASE AUTH (SAFE) ================= -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { 
+  import {
     getAuth,
     onAuthStateChanged,
     setPersistence,
@@ -98,11 +98,22 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // ✅ IMPORTANT: Persist login across pages
+  // ✅ Persist login across refresh
   await setPersistence(auth, browserLocalPersistence);
 
-  // 🔐 AUTH GUARD (FIXED)
-  
+  // ✅ SAFE AUTH GUARD (no redirect loop)
+  let authChecked = false;
+
+  onAuthStateChanged(auth, (user) => {
+    if (authChecked) return;
+    authChecked = true;
+
+    if (!user) {
+      window.location.replace("login.html");
+    } else {
+      console.log("Investor logged in:", user.email);
+    }
+  });
 
   // 🚪 LOGOUT
   document.getElementById("logoutBtn").addEventListener("click", async () => {
