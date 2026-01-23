@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up | Founders Bridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="container header-inner">
+
+    <div class="logo-wrap">
+      <span class="logo-icon">🌉</span>
+      <span class="logo-text">Founders Bridge</span>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="auth">
+      <a href="login.html" class="login-btn">Login</a>
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= CONTENT ================= -->
+<section class="hero">
+  <div class="container" style="max-width:520px">
+
+    <h2>Create your account</h2>
+    <p>Join Founders Bridge as a Founder or Investor / Mentor.</p>
+
+    <form class="clean-form" id="signupForm">
+
+      <input type="text" id="name" placeholder="Full Name" required>
+
+      <input type="email" id="email" placeholder="Email Address" required>
+
+      <input type="password" id="password" placeholder="Password (min 6 characters)" required>
+
+      <!-- ROLE SELECT -->
+      <select id="role" required>
+        <option value="">Sign up as</option>
+        <option value="founder">Founder</option>
+        <option value="investor">Investor / Mentor</option>
+      </select>
+
+      <button type="submit" class="btn primary" style="width:100%">
+        Sign Up
+      </button>
+    </form>
+
+    <p style="margin-top:20px;font-size:14px">
+      Already have an account?
+      <a href="login.html" style="color:#2563eb;font-weight:600">Login</a>
+    </p>
+
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 Founders Bridge. All rights reserved.
+</footer>
+
+<!-- ================= FIREBASE SIGNUP ================= -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCERTDKt90nCqfxn7ssjhzwcEsopcgGweA",
+    authDomain: "founders-bridge.firebaseapp.com",
+    projectId: "founders-bridge",
+    storageBucket: "founders-bridge.firebasestorage.app",
+    messagingSenderId: "579875714228",
+    appId: "1:579875714228:web:fafbcedce27471f56d53e1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+
+    if (!role) {
+      alert("Please select Founder or Investor / Mentor");
+      return;
+    }
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+      await setDoc(doc(db, "users", cred.user.uid), {
+        name,
+        email,
+        role,
+        createdAt: new Date()
+      });
+
+      // 🔀 Role-based redirect
+      if (role === "founder") {
+        window.location.href = "founder-dashboard.html";
+      } else {
+        window.location.href = "investor-dashboard.html";
+      }
+
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Founders | Founders Bridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-inner">
+    <div class="logo-wrap">
+      <span class="logo-icon">🌉</span>
+      <span class="logo-text">Founders Bridge</span>
+    </div>
+
+    <nav class="nav">
+      <a href="investor-dashboard.html">Dashboard</a>
+    </nav>
+
+    <div class="auth">
+      <a href="login.html" class="login-btn">Logout</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h2>Available Founders</h2>
+    <p>Browse startups ready for investment or mentorship.</p>
+
+    <div id="foundersList" class="dashboard-grid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 Founders Bridge
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCERTDKt90nCqfxn7ssjhzwcEsopcgGweA",
+    authDomain: "founders-bridge.firebaseapp.com",
+    projectId: "founders-bridge",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const foundersList = document.getElementById("foundersList");
+
+  const querySnapshot = await getDocs(collection(db, "founders"));
+
+  if (querySnapshot.empty) {
+    foundersList.innerHTML = "<p>No founders found.</p>";
+  }
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    foundersList.innerHTML += `
+      <div class="dashboard-card">
+        <h3>${data.startupName}</h3>
+        <p>Startup ID: ${doc.id}</p>
+        <button class="btn primary">View Profile</button>
+      </div>
+    `;
+  });
+</script>
+
+</body>
+</html>

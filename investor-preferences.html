@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Investment Preferences | Founders Bridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="form-page">
+
+<header class="header">
+  <div class="container header-inner">
+    <div class="logo-wrap">
+      <span class="logo-icon">🌉</span>
+      <span class="logo-text">Founders Bridge</span>
+    </div>
+
+    <nav class="nav">
+      <a href="investor-dashboard.html">Dashboard</a>
+      <a href="founders.html">Browse Founders</a>
+    </nav>
+
+    <div class="auth">
+      <a href="investor-dashboard.html" class="login-btn">Back</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+
+    <h2>Investment Preferences</h2>
+    <p>Select what kind of startups you want to discover.</p>
+
+    <form class="clean-form" id="prefForm">
+
+      <!-- INDUSTRY -->
+      <label><strong>Industries</strong></label>
+      <select multiple id="industries">
+        <option value="Fintech">Fintech</option>
+        <option value="SaaS">SaaS</option>
+        <option value="AI">AI</option>
+        <option value="HealthTech">HealthTech</option>
+        <option value="E-commerce">E-commerce</option>
+      </select>
+
+      <!-- STAGE -->
+      <label><strong>Startup Stage</strong></label>
+      <select multiple id="stages">
+        <option value="Idea">Idea</option>
+        <option value="MVP">MVP</option>
+        <option value="Seed">Seed</option>
+        <option value="Series A">Series A</option>
+      </select>
+
+      <!-- ENGAGEMENT -->
+      <label><strong>Engagement Type</strong></label>
+      <select multiple id="engagement">
+        <option value="Investor">Investor</option>
+        <option value="Mentor">Mentor</option>
+      </select>
+
+      <button class="btn primary" type="submit">
+        Save Preferences
+      </button>
+
+    </form>
+
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 Founders Bridge
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCERTDKt90nCqfxn7ssjhzwcEsopcgGweA",
+    authDomain: "founders-bridge.firebaseapp.com",
+    projectId: "founders-bridge"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const form = document.getElementById("prefForm");
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const prefRef = doc(db, "investorPreferences", user.uid);
+    const snap = await getDoc(prefRef);
+
+    if (snap.exists()) {
+      const d = snap.data();
+      setSelected("industries", d.industries);
+      setSelected("stages", d.stages);
+      setSelected("engagement", d.engagement);
+    }
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+
+      await setDoc(prefRef, {
+        industries: getValues("industries"),
+        stages: getValues("stages"),
+        engagement: getValues("engagement"),
+        updatedAt: serverTimestamp()
+      });
+
+      alert("Preferences saved!");
+      window.location.href = "investor-dashboard.html";
+    };
+  });
+
+  function getValues(id) {
+    return Array.from(document.getElementById(id).selectedOptions)
+      .map(o => o.value);
+  }
+
+  function setSelected(id, values = []) {
+    const select = document.getElementById(id);
+    Array.from(select.options).forEach(opt => {
+      opt.selected = values.includes(opt.value);
+    });
+  }
+</script>
+
+</body>
+</html>
