@@ -102,6 +102,11 @@
 
   await setPersistence(auth, browserLocalPersistence);
 
+  console.log("Immediately:", auth.currentUser);
+
+setTimeout(() => {
+  console.log("After 1 second:", auth.currentUser);
+}, 5000);
 
   onAuthStateChanged(auth, (user) => {
     console.log('User', user);
