@@ -102,17 +102,15 @@
 
   await setPersistence(auth, browserLocalPersistence);
 
-  let checked = false;
+
   onAuthStateChanged(auth, (user) => {
     console.log('User', user);
-    if (checked) return;
-    checked = true;
 
-    // if (!user) {
-    //   window.location.replace(BASE + "login.html");
-    // } else {
-    //   console.log("Investor logged in:", user.email);
-    // }
+    if (!user) {
+      window.location.replace(BASE + "login.html");
+    } else {
+      console.log("Investor logged in:", user.email);
+    }
   });
 
   document.getElementById("logoutBtn").addEventListener("click", async () => {
